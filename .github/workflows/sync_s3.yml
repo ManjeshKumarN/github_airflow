@@ -5,15 +5,14 @@ name: Deployment
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Get Code
+        uses: actions/checkout@v2
       
       - name: Deploying application to Amazon S3
         uses: dvelasquez/deploy-s3-action@main
@@ -22,6 +21,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
           AWS_BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-          BUCKET_PATH: "" # Or to upload a pull_request: "/pr/${{github.event.number}}"
+          BUCKET_PATH: "" # root directory Or to upload a pull_request: "/pr/${{github.event.number}}"
           DIST_LOCATION_CODE: .
           
